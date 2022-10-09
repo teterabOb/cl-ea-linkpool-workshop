@@ -1,83 +1,99 @@
-const axios = require('axios');
+const { Requester, Validator } = require("@chainlink/external-adapter");
+const { head } = require("request");
 require('dotenv').config()
-const express = require("express");
-const app = express();
 
-app.use(express.json());
+// Define custom error scenarios for the API.
+// Return true for the adapter to retry.
+const customError = (data) => {
+  if (data.Response === "Error") return true;
+  return false;
+};
 
-const students = [
-  { id: 1, name: "Jorge", age: 20, enroll: true },
-  { id: 2, name: "Matias", age: 33, enroll: true },
-  { id: 3, name: "Alvaro", age: 30, enroll: false },
-];
 
-app.get('/', (req, res) => {
-    res.send('Node JS api');
-});
 
-app.get('/api/students', (req, res) => {
-    res.send(students)
-});
+const createRequest = (input, callback) => {
+  // The Validator helps you validate the Chainlink request data
+  const validator = new Validator(callback, input);
+  const jobRunID = validator.validated.id;
 
-app.get('/api/students/:id', (req, res) => {
-    const student = students.find(c => c.id === parseInt(req.params.id));
-    if(!student) return res.statusCode(404).send('Estudiante no encontrado');
-    else res.send(student);
-});
+  const API_KEY = process.env.API_KEY;
 
-// Testing Axios
-app.get('/api/search', (req, res) => {
-    let url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
-    //let query = req.query.queryStr;
-    
-    axios({
-        method: 'get',
-        url
-    })
+  const from = input.data.from;
+  const to = input.data.to;
+  const passengers = input.data.passengers;
+  const classFlight = input.data.classFlight;
+  
+
+  //const endpoint = validator.validated.data.endpoint || "price";
+  //const url = `https://beta3.api.climatiq.io/travel/flights/BER&HAM&2&first`;
+  const url = "https://beta3.api.climatiq.io/travel/flights";
+  
+
+  const params = {
+    legs: [{
+        from: from,
+        to: to,
+        passengers: parseInt(passengers),
+        classFlight: classFlight,
+      }]    
+  };
+
+  const headers = {
+    Authorization: `Bearer ${API_KEY}`
+  }
+
+  const config = {
+    method: 'post',
+    url: url,
+    headers,
+    data: params
+  };
+
+  // The Requester allows API calls be retry in case of timeout
+  // or connection failure
+  Requester.request(config, customError)
     .then((response) => {
-        res.send(JSON.stringify(response.data));
+      // It's common practice to store the desired value at the top-level
+      // result key. This allows different adapters to be compatible with
+      // one another.
+      //response.data.result = Requester.validateResultNumber(response.data, [
+      //  tsyms,
+      //]);
+      callback(response.status, Requester.success(jobRunID, response));
     })
     .catch((error) => {
-        console.log(error);
-    })
-});
+      callback(500, Requester.errored(jobRunID, error));
+    });
+};
 
-app.get('/api/flights/:from&:to&:passengers&:class', (req, res) => {
-    let url = "https://beta3.api.climatiq.io/travel/flights"
+// This is a wrapper to allow the function to work with
+// GCP Functions
+exports.gcpservice = (req, res) => {
+  createRequest(req.body, (statusCode, data) => {
+    res.status(statusCode).send(data);
+  });
+};
 
-    let from = req.params.from;
-    let to = req.params.to;
-    let passengers = req.params.passengers;
-    let flightClass= req.params.class;
+// This is a wrapper to allow the function to work with
+// AWS Lambda
+exports.handler = (event, context, callback) => {
+  createRequest(event, (statusCode, data) => {
+    callback(null, data);
+  });
+};
 
-    console.log(from)
-    
-    axios({
-        method: 'post',
-        url: url,
-        headers: {
-            Authorization: `Bearer ${process.env.API_KEY}`
-        },
-        data: {
-            legs: [
-                {
-                    "from": from, //"BER",
-                    "to": to, //"HAM",
-                    "passengers": parseInt(passengers), //2,
-                    "class": flightClass //"first"
-                }
-            ]
-        }
-    })
-    .then((response) => {
-        res.send(JSON.stringify(response.data));
-        console.log(JSON.stringify(response.data))
-    })
-    .catch((error) => {
-        console.log(error);
-    })
-});
+// This is a wrapper to allow the function to work with
+// newer AWS Lambda implementations
+exports.handlerv2 = (event, context, callback) => {
+  createRequest(JSON.parse(event.body), (statusCode, data) => {
+    callback(null, {
+      statusCode: statusCode,
+      body: JSON.stringify(data),
+      isBase64Encoded: false,
+    });
+  });
+};
 
-
-const port = process.env.port || 8080;
-app.listen(port, () => console.log(`Esuchando en puerto ${port} ...`));
+// This allows the function to be exported for testing
+// or for running in express
+module.exports.createRequest = createRequest;
