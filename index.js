@@ -60,9 +60,6 @@ const createRequest = (input, callback) => {
   // or connection failure
   Requester.request(config, customError)
     .then((response) => {
-
-
-
       // It's common practice to store the desired value at the top-level
       // result key. This allows different adapters to be compatible with
       // one another.
