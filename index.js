@@ -13,8 +13,8 @@ const customError = (data) => {
 
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
-  const validator = new Validator(callback, input);
-  const jobRunID = validator.validated.id;
+  //const validator = new Validator(callback, input);
+  const jobRunID = input.id;
 
   const API_KEY = process.env.API_KEY;
 
