@@ -61,9 +61,7 @@ const createRequest = (input, callback) => {
   Requester.request(config, customError)
     .then((response) => {
 
-      console.log("*** RESPONSE ***");
-      console.log(response.data.result);
-      console.log("*** RESPONSE ***");
+
 
       // It's common practice to store the desired value at the top-level
       // result key. This allows different adapters to be compatible with
