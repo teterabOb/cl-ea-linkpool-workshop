@@ -66,9 +66,11 @@ const createRequest = (input, callback) => {
       //response.data.result = Requester.validateResultNumber(response.data, [
       //  tsyms,
       //]);
+      /*
       if(response.data.co2e){
         response.data.co2e = parseInt(response.data.co2e)
-      }      
+      } 
+      */     
       callback(response.status, Requester.success(jobRunID, response));
     })
     .catch((error) => {
