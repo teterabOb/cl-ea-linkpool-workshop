@@ -17,7 +17,7 @@ https://www.climatiq.io/docs#travel-flights
 ## Request
 
 ```bash
-curl -X POST “content-type: application” “http://localhost:8080/” --data ‘{“id”: 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }’
+curl -X POST "content-type: application" "http://localhost:8080/" --data ‘{"id": 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }’
 ```
 
 ## Creating your own adapter from this template
