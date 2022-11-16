@@ -2,31 +2,18 @@
 
 Basado en el template https://github.com/thodges-gh/CL-EA-NodeJS-Template.git
 
-Estamos utilizando la api de 
+## Estamos utilizando la api de 
 
 https://www.climatiq.io/
 
-Documentación
+## Documentación
 
 https://www.climatiq.io/docs
 
-Sección de Flights
+## Sección de Flights
 
 https://www.climatiq.io/docs#travel-flights
 
-## Request
-
-Localhost
-
-```bash
-curl -X POST "content-type: application" "http://localhost:8080/" --data ‘{"id": 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }’
-```
-
-Public URL
-
-```bash
-curl -X POST -H "content-type:application/json" "https://orca-app-wt4ks.ondigitalocean.app/" --data '{"id": 1, "data": {"from": "ONT", "to": "SCL","passengers": 300,"classFlight": "unknown" } }'
-```
 
 ## Creating your own adapter from this template
 
@@ -36,21 +23,21 @@ Clone this repo and change "ExternalAdapterProject" below to the name of your pr
 git clone https://github.com/thodges-gh/CL-EA-NodeJS-Template.git ExternalAdapterProject
 ```
 
-Enter into the newly-created directory
+Entra al nuevo directorio creado
 
 ```bash
 cd ExternalAdapterProject
 ```
 
-You can remove the existing git history by running:
+Puedes remover el historial repositorio de git ejecutando:
 
 ```bash
 rm -rf .git
 ```
 
-## Install Locally
+## Instalar localmente
 
-Install dependencies:
+Instalar dependencias:
 
 ```bash
 yarn
@@ -58,14 +45,25 @@ yarn
 
 ### Run
 
-Natively run the application (defaults to port 8080):
+Correr la aplicación de manera local (por defecto en el peurto 8080):
 
 ```bash
 yarn start
 ```
+## Llamar al external adapter/API Server
 
-## Call the external adapter/API server
+Localhost
 
 ```bash
-curl -X POST -H "content-type:application/json" "http://localhost:8080/" --data '{"id": 1, "data": {"from": "ONT", "to": "SCL","passengers": 300,"classFlight": "unknown" } }'
+curl -X POST "content-type: application" "http://localhost:8080/" --data ‘{"id": 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }’
 ```
+## Llamar al external adapter/API Server
+
+Public URL
+
+```bash
+curl -X POST -H "content-type:application/json" "https://orca-app-wt4ks.ondigitalocean.app/" --data '{"id": 1, "data": {"from": "ONT", "to": "SCL","passengers": 300,"classFlight": "unknown" } }'
+```
+
+
+
