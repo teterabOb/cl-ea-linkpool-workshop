@@ -59,7 +59,7 @@ yarn start
 Localhost
 
 ```bash
-curl -X POST "content-type: application" "http://localhost:8080/" --data ‘{"id": 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }’
+curl -X POST "content-type: application" "http://localhost:8080/" --data '{"id": 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }'
 ```
 ## Llamar al external adapter/API Server
 
