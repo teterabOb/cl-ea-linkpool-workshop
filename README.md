@@ -1,3 +1,7 @@
+# Introducción
+
+Este repo es para el workshop de External Adapters para la comunidad hispano hablante. Esta demostración muestra cómo construir un external adapter que se conecta a un nodo Oracle de Chainlink para que sus contratos inteligentes puedan obtener datos arbitrarios de una API externa. Puedes leer sobre los [External Adapters](https://docs.chain.link/docs/external-adapters/) aquí.
+
 # Chainlink NodeJS External Adapter 
 
 Basado en el template https://github.com/thodges-gh/CL-EA-NodeJS-Template.git
@@ -59,11 +63,18 @@ curl -X POST "content-type: application" "http://localhost:8080/" --data ‘{"id
 ```
 ## Llamar al external adapter/API Server
 
-Public URL
+URL Pública
+
+[API_Endpoint] = https://orca-app-wt4ks.ondigitalocean.app/
+
+```bash
+curl -X POST -H "content-type:application/json" "API_ENDPOINT" --data '{"id": 1, "data": {"from": "ONT", "to": "SCL","passengers": 300,"classFlight": "unknown" } }'
+```
 
 ```bash
 curl -X POST -H "content-type:application/json" "https://orca-app-wt4ks.ondigitalocean.app/" --data '{"id": 1, "data": {"from": "ONT", "to": "SCL","passengers": 300,"classFlight": "unknown" } }'
 ```
+
 
 
 
