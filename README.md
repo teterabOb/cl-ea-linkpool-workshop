@@ -16,8 +16,16 @@ https://www.climatiq.io/docs#travel-flights
 
 ## Request
 
+Localhost
+
 ```bash
 curl -X POST "content-type: application" "http://localhost:8080/" --data ‘{"id": 1, "from": "ONT", "to": "SCL","passengers": 300,"class": "unknown" } }’
+```
+
+Public URL
+
+```bash
+curl -X POST -H "content-type:application/json" "https://orca-app-wt4ks.ondigitalocean.app/" --data '{"id": 1, "data": {"from": "ONT", "to": "SCL","passengers": 300,"classFlight": "unknown" } }'
 ```
 
 ## Creating your own adapter from this template
