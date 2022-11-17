@@ -10,6 +10,7 @@
   "author": "Gilberts A.",
   "license": "ISC",
   "dependencies": {
+    "@chainlink/contracts": "^0.5.1",
     "@chainlink/external-adapter": "^0.2.6",
     "axios": "^1.1.2",
     "dotenv": "^16.0.3",

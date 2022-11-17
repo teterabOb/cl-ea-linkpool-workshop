@@ -76,5 +76,7 @@ curl -X POST -H "content-type:application/json" "https://orca-app-wt4ks.ondigita
 ```
 
 
+## Arquitectura
 
+![alt Dibujo de arquitectura mostrando la interacción dentro del sistema](./img/ea-arquitectura.jpg "Diagrama de Arquitectura")
 
