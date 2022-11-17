@@ -17,9 +17,9 @@ contract Co2Consumer is ChainlinkClient, ConfirmedOwner {
     
 
     constructor() ConfirmedOwner(msg.sender) {
-        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);        
-        setChainlinkOracle(0xD00B41d72b9d6d61dAdcF37279A823e2eCeEF8e2);
-        jobId = "4d9dd08f95294919b96fa0ac4a5bc624"; // insert right jobID
+        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); // insertar Chainlink Token de la chain correcta       
+        setChainlinkOracle(0xD00B41d72b9d6d61dAdcF37279A823e2eCeEF8e2); // insertar Chainlink oracle desplegado y habilitar al nodo
+        jobId = "4d9dd08f95294919b96fa0ac4a5bc624"; // insertar el jobID Correcto
         fee = (1 * LINK_DIVISIBILITY) / 10;
     }
 
@@ -31,6 +31,7 @@ contract Co2Consumer is ChainlinkClient, ConfirmedOwner {
     ) external returns (bytes32 requestId) {
         require(_passengers <= 555, "Max num of passengers is 555");
         Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill.selector);
+        // Convierte el numero entero en un string
         string memory _strPassengers = Strings.toString(_passengers);
 
         req.add("from", _from);
